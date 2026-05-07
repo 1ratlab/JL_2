@@ -1,0 +1,10 @@
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+*.pyo
+*.pkl
+.env
+.DS_Store
+*.swp
+miniconda3/
+

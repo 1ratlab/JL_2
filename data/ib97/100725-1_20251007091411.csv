@@ -1,0 +1,250 @@
+1. Name,jb,bjh970
+2. ID,100725-1,091725-1
+3. Height,5ft 06.0in,6ft 06.0in
+4. Date of Birth,1966.01.01.,1939.02.23.
+5. Gender,F,M
+6. Age,59,86
+7. Mobile Number,-,-
+8. Phone Number,-,-
+9. Zip Code,-,-
+10. Address,-,-
+11. E-mail,-,-
+12. Date of Registration,2025.10.07.,2025.09.17.
+13. Memo,-,-
+14. Test Date / Time,2.0251E+13,2.0251E+13
+15. Weight,143,256
+16. Lower Limit (Weight Normal Range),110.7,161.8
+17. Upper Limit (Weight Normal Range),149.5,218.7
+18. TBW (Total Body Water),75.8,126.5
+19. Lower Limit (TBW Normal Range),66.4,106.9
+20. Upper Limit (TBW Normal Range),80.9,130.7
+21. ICW (Intracellular Water),46.5,75.4
+22. Lower Limit (ICW Normal Range),41,66.4
+23. Upper Limit (ICW Normal Range),50.3,80.9
+24. ECW (Extracellular Water),29.3,51.1
+25. Lower Limit (ECW Normal Range),25.1,40.8
+26. Upper Limit (ECW Normal Range),30.9,49.6
+27. Protein,20.1,32.8
+28. Lower Limit (Protein Normal Range),17.6,28.9
+29. Upper Limit (Protein Normal Range),21.6,35.1
+30. Minerals,7.65,12.41
+31. Lower Limit (Minerals Normal Range),6.13,9.9
+32. Upper Limit (Minerals Normal Range),7.5,12.1
+33. DLM (Dry Lean Mass),27.8,45.2
+34. BFM (Body Fat Mass),39.4,84.3
+35. Lower Limit (BFM Normal Range),26,22.9
+36. Upper Limit (BFM Normal Range),41.7,45.6
+37. FFM (Fat Free Mass),103.6,171.7
+38. SMM (Skeletal Muscle Mass),56.2,93.9
+39. Lower Limit (SMM Normal Range),49.6,82.5
+40. Upper Limit (SMM Normal Range),60.6,101
+41. BMI (Body Mass Index),23.1,29.6
+42. Lower Limit (BMI Normal Range),18.5,18.5
+43. Upper Limit (BMI Normal Range),25,25
+44. PBF (Percent Body Fat),27.5,32.9
+45. Lower Limit (PBF Normal Range),18,10
+46. Upper Limit (PBF Normal Range),28,20
+47. Lean Mass of Right Arm,5.23,10.34
+48. Lower Limit (Lean Mass of Right Arm Normal Range),3.79,7.69
+49. Upper Limit (Lean Mass of Right Arm Normal Range),5.69,10.43
+50. Lean Mass(%) of Right Arm,106.8,104.5
+51. Lean Mass of Left Arm,5.09,9.97
+52. Lower Limit (Lean Mass of Left Arm Normal Range),3.79,7.69
+53. Upper Limit (Lean Mass of Left Arm Normal Range),5.69,10.43
+54. Lean Mass(%) of Left Arm,104.1,100.8
+55. Lean Mass of Trunk,45,75.4
+56. Lower Limit (Lean Mass of Trunk Normal Range),38.8,65
+57. Upper Limit (Lean Mass of Trunk Normal Range),47.6,79.6
+58. Lean Mass(%) of Trunk,101.4,95.6
+59. Lean Mass of Right Leg,15.5,30.07
+60. Lower Limit (Lean Mass of Right Leg Normal Range),13.54,22.66
+61. Upper Limit (Lean Mass of Right Leg Normal Range),16.54,27.69
+62. Lean Mass(%) of Right Leg,100,109.2
+63. Lean Mass of Left Leg,15.41,30.14
+64. Lower Limit (Lean Mass of Left Leg Normal Range),13.54,22.66
+65. Upper Limit (Lean Mass of Left Leg Normal Range),16.54,27.69
+66. Lean Mass(%) of Left Leg,99.5,109.5
+67. Leg Lean Mass,30.9,60.2
+68. TBW of Right Arm,4.08,8.07
+69. Lower Limit (TBW of Right Arm Normal Range),2.98,6.04
+70. Upper Limit (TBW of Right Arm Normal Range),4.48,8.16
+71. TBW of Left Arm,3.97,7.78
+72. Lower Limit (TBW of Left Arm Normal Range),2.98,6.04
+73. Upper Limit (TBW of Left Arm Normal Range),4.48,8.16
+74. TBW of Trunk,35.3,59.1
+75. Lower Limit (TBW of Trunk Normal Range),30.4,50.9
+76. Upper Limit (TBW of Trunk Normal Range),37.3,62.4
+77. TBW of Right Leg,12.1,23.66
+78. Lower Limit (TBW of Right Leg Normal Range),10.6,17.77
+79. Upper Limit (TBW of Right Leg Normal Range),12.94,21.72
+80. TBW of Left Leg,12.04,23.72
+81. Lower Limit (TBW of Left Leg Normal Range),10.6,17.77
+82. Upper Limit (TBW of Left Leg Normal Range),12.94,21.72
+83. ICW of Right Arm,2.51,4.96
+84. Lower Limit (ICW of Right Arm Normal Range),1.85,3.75
+85. Upper Limit (ICW of Right Arm Normal Range),2.78,5.07
+86. ICW of Left Arm,2.45,4.74
+87. Lower Limit (ICW of Left Arm Normal Range),1.85,3.75
+88. Upper Limit (ICW of Left Arm Normal Range),2.78,5.07
+89. ICW of Trunk,21.6,35.1
+90. Lower Limit (ICW of Trunk Normal Range),19,31.5
+91. Upper Limit (ICW of Trunk Normal Range),23.1,38.6
+92. ICW of Right Leg,7.41,13.96
+93. Lower Limit (ICW of Right Leg Normal Range),6.57,11.02
+94. Upper Limit (ICW of Right Leg Normal Range),8.02,13.47
+95. ICW of Left Leg,7.34,13.98
+96. Lower Limit (ICW of Left Leg Normal Range),6.57,11.02
+97. Upper Limit (ICW of Left Leg Normal Range),8.02,13.47
+98. ECW of Right Arm,1.57,3.11
+99. Lower Limit (ECW of Right Arm Normal Range),1.12,2.29
+100. Upper Limit (ECW of Right Arm Normal Range),1.7,3.09
+101. ECW of Left Arm,1.52,3.04
+102. Lower Limit (ECW of Left Arm Normal Range),1.12,2.29
+103. Upper Limit (ECW of Left Arm Normal Range),1.7,3.09
+104. ECW of Trunk,13.7,24
+105. Lower Limit (ECW of Trunk Normal Range),11.5,19.4
+106. Upper Limit (ECW of Trunk Normal Range),14.1,23.8
+107. ECW of Right Leg,4.7,9.7
+108. Lower Limit (ECW of Right Leg Normal Range),4.03,6.75
+109. Upper Limit (ECW of Right Leg Normal Range),4.92,8.25
+110. ECW of Left Leg,4.7,9.74
+111. Lower Limit (ECW of Left Leg Normal Range),4.03,6.75
+112. Upper Limit (ECW of Left Leg Normal Range),4.92,8.25
+113. ECW/TBW,0.388,0.405
+114. ECW/TBW of Right Arm,0.382,0.386
+115. ECW/TBW of Left Arm,0.384,0.39
+116. ECW/TBW of Trunk,0.389,0.404
+117. ECW/TBW of Right Leg,0.388,0.41
+118. ECW/TBW of Left Leg,0.39,0.411
+119. BFM of Right Arm,2.6,7.1
+120. BFM% of Right Arm,119.8,409
+121. BFM of Left Arm,2.6,7.3
+122. BFM% of Left Arm,123.7,428.8
+123. BFM of Trunk,20.3,43.7
+124. BFM% of Trunk,165.1,362
+125. BFM of Right Leg,5.7,11.5
+126. BFM% of Right Leg,103.9,233.4
+127. BFM of Left Leg,5.7,11.5
+128. BFM% of Left Leg,103.2,233.5
+129. InBody Score,78,60
+130. BFM Control,-8.4,-53.8
+131. FFM Control,0,0
+132. BMR (Basal Metabolic Rate),1385,2054
+133. VFL (Visceral Fat Level),8,18
+134. VFA (Visceral Fat Area),82,187.2
+135. BCM (Body Cell Mass),66.6,108.2
+136. Lower Limit (BCM Normal Range),58.6,95
+137. Upper Limit (BCM Normal Range),71.9,116.2
+138. AC (Arm Circumference),11.4,13.5
+139. BMC (Bone Mineral Content),6.33,10.54
+140. Lower Limit (BMC Normal Range),5.05,8.16
+141. Upper Limit (BMC Normal Range),6.15,9.97
+142. TBW/FFM,73.3,73.7
+143. FFMI (Fat Free Mass Index),16.7,19.9
+144. FMI (Fat Mass Index),6.4,9.7
+145. 5kHz-RA Phase Angle,1.9,2.3
+146. 5kHz-LA Phase Angle,1.7,1.8
+147. 5kHz-TR Phase Angle,2.8,2.6
+148. 5kHz-RL Phase Angle,1.9,1.8
+149. 5kHz-LL Phase Angle,1.8,1.7
+150. 50kHz-RA Phase Angle,4.3,4.5
+151. 50kHz-LA Phase Angle,4.1,3.9
+152. 50kHz-TR Phase Angle,6.6,5.8
+153. 50kHz-RL Phase Angle,5,3.3
+154. 50kHz-LL Phase Angle,4.6,3.3
+155. 250kHz-RA Phase Angle,4.3,4.1
+156. 250kHz-LA Phase Angle,4.1,3.9
+157. 250kHz-TR Phase Angle,7.9,6.5
+158. 250kHz-RL Phase Angle,4.1,2.9
+159. 250kHz-LL Phase Angle,4.2,3
+160. 50kHz-Whole Body Phase Angle,4.7,4.1
+161. Systolic,-,-
+162. Diastolic,-,-
+163. Pulse,-,-
+164. Mean Artery Pressure,-,-
+165. Pulse Pressure,-,-
+166. Rate Pressure Product,-,-
+167. InBody Type,970,970
+168. Local ID,19,16
+169. ICW/FFM%,44.8,43.9
+170. SMI (Skeletal Muscle Index),6.7,9.3
+171. Medical History,-,-
+172. Group,-,-
+173. Recommended Calorie Intake,1989,2948
+174. Lower Limit (BMR Normal Range),1341,2289
+175. Upper Limit (BMR Normal Range),1557,2715
+176. SMI(ASM/Ht²)_T score,-0.4,0.5
+177. SMI(ASM/Ht²)_Z score,-0.4,1.3
+178. Whole Body ECW/TBW_T score,2.1,6.1
+179. Whole Body ECW/TBW_Z score,1,3
+180. VFA_T score,0.1,3.8
+181. VFA_Z score,-0.7,2.1
+182. BMI_T score,-0.6,0.8
+183. BMI_Z score,-0.9,0.5
+184. Subcutaneous Fat,0,0
+185. Arms/Legs Fat,16.8,37.3
+186. Lower Limit (Subcutaneous Fat of Abdomen Normal Range),2.14,2.51
+187. Upper Limit (Subcutaneous Fat of Abdomen Normal Range),4.26,5.03
+188. Visceral Fat,0,0
+189. Lower Limit (Visceral Fat of Abdomen Normal Range),1.06,1.26
+190. Upper Limit (Visceral Fat of Abdomen Normal Range),2.14,2.51
+191. Lower Limit (BFM of Arm & Leg Normal Range),12.3,10.6
+192. Upper Limit (BFM of Arm & Leg Normal Range),24.7,21.2
+193. Lower Limit (BFM of Trunk Normal Range),9.7,9.7
+194. Upper Limit (BFM of Trunk Normal Range),19.4,19.4
+195. Abdominal Fat,0,0
+196. V/S Ratio(Visceral Fat Area/Subcutaneous Fat Area ratio),0,0
+197. SFA(Subcutaneous Fat Area),0,0
+198. WHtR(Waist-Height Ratio),0.5,0.6
+199. BAI(Body Adiposity Index),25.4,21.4
+200. ABSI(A Body Shaped Index),0.079,0.087
+201. Conicity Index,1.24,1.41
+202. LVR(Lean Mass-Visceral Fat Area Ratio),0.31,0.23
+203. Upper Limit (WHtR Normal Range),0.51,0.5
+204. Upper Limit (BAI Normal Range),26.9,26.9
+205. Upper Limit (ABSI Normal Range),0.076,0.076
+206. Upper Limit (Conicity Index Normal Range),1.25,1.25
+207. Upper Limit (LVR Normal Range),0.15,0.19
+208. 50khz-Ab Impedance,0,0
+209. 250khz-Ab Impedance,0,0
+210. WC(Waist Circumference) ,33,46.4
+211. Angle-R,0,0
+212. Angle_L,0,0
+213. Lower Limit (Abdominal Fat Normal Range),3.2,3.77
+214. Upper Limit (Abdominal Fat Normal Range),6.39,7.54
+215. Lower Limit (FFM Normal Range),90.2,145.5
+216. Upper Limit (FFM Normal Range),110.2,177.9
+217. SMM/WT,39.3,36.7
+218. Systolic2,0,0
+219. Diastolic2,0,0
+220. Pulse2,0,0
+221. Mean Artery Pressure2,0,0
+222. Pulse Pressure2,0,0
+223. Rate Pressure Product2,0,0
+224. BFM% of Whole Body,148.5,294.7
+225. ECM/BCM,0.556,0.587
+226. TBW/WT,53.1,49.5
+227. Lean Mass(%) of Right Arm (Ideal Weight),110.2,114.3
+228. Lean Mass(%) of Left Arm (Ideal Weight),107.4,110.1
+229. Lean Mass(%) of Trunk (Ideal Weight),104.3,104.3
+230. Lean Mass(%) of Right Leg (Ideal Weight),103.1,119.4
+231. Lean Mass(%) of Left Leg (Ideal Weight),102.5,119.7
+232. Impedance Check,000/000/000,000/000/000
+233. BCM_T score,0,0.5
+234. BCM_Z score,0.2,2.3
+235. FFMI_T score,-0.4,-0.7
+236. FFMI_Z score,-0.4,0.1
+237. FMI_T score,-0.5,1.6
+238. FMI_Z score,-0.9,0.5
+239. PBF_T score,-0.4,1.8
+240. PBF_Z score,-1,0.7
+241. Weight_T score,-0.3,2.3
+242. Weight_Z score,-0.6,2.3
+243. 50kHz-Whole Body Phase Angle_T score,-1.8,-4.7
+244. 50kHz-Whole Body Phase Angle_Z score,-1,-1.8
+245. TBW/WT_T Score,0.4,-1.7
+246. TBW/WT_Z Score,1,-0.6
+247. SMI(SMM/Wt)_T score,0.3,-2.1
+248. SMI(SMM/Wt)_Z score,0.9,-0.8
+249. ECM/BCM_T Score,1.9,6.2
+250. ECM/BCM Z Score,1.1,3
