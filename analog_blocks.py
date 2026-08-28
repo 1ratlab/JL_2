@@ -253,3 +253,74 @@ class NegGainOpAmp:
             "output": Vout,
             "closed_loop_gain": closed_loop_gain
         }
+
+
+# ------------------------------------------------------------
+# Utility Functions
+# ------------------------------------------------------------
+
+def inspect_block(obj):
+    """
+    Return a dictionary describing the object's class, attributes, and methods.
+
+    Parameters
+    ----------
+    obj : object
+        Any analog-computer block instance.
+
+    Returns
+    -------
+    dict
+        {
+            "class": <class name>,
+            "attributes": { ... },
+            "methods": [ ... ]
+        }
+    """
+    attrs = {k: v for k, v in obj.__dict__.items()}
+
+    methods = [
+        m for m in dir(obj)
+        if callable(getattr(obj, m))
+        and not m.startswith("__")
+        and m not in attrs
+    ]
+
+    return {
+        "class": obj.__class__.__name__,
+        "attributes": attrs,
+        "methods": methods
+    }
+
+
+def summarize_block(obj):
+    """
+    Pretty-print a readable summary of any analog-computer block.
+
+    Parameters
+    ----------
+    obj : object
+        Any block instance from the analog_blocks library.
+
+    Returns
+    -------
+    str
+        A formatted multi-line string describing the block.
+    """
+    info = inspect_block(obj)
+
+    lines = []
+    lines.append(f"Block Summary: {info['class']}")
+    lines.append("-" * 50)
+
+    # Attributes
+    lines.append("Attributes:")
+    for k, v in info["attributes"].items():
+        lines.append(f"  • {k}: {v}")
+
+    # Methods
+    lines.append("\nMethods:")
+    for m in info["methods"]:
+        lines.append(f"  • {m}")
+
+    return "\n".join(lines)
