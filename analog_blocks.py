@@ -1,326 +1,320 @@
-# ============================================================
-# Analog Computer Block Library
-# ============================================================
-# Author: Bill
-# Description:
-#     A collection of reusable analog‑computer simulation blocks
-#     implemented as Python classes. These blocks replicate the
-#     behavior of classic op‑amp analog computers using modern
-#     numerical methods suitable for JupyterLab.
-#
-# Table of Contents
-# ------------------------------------------------------------
-#   1. Node (virtual summing junction)
-#   2. Capacitor (storage / integrator)
-#   3. Resistor (conductance block)
-#   4. Diffusion (nonlinear flow block)
-#   5. DelayLine (programmable delay line)
-#   6. NegGainOpAmp (inverting amplifier stage)
-#
-# Usage:
-#     import analog_blocks as ab
-#     A = ab.Node("A", initial_V=0)
-#     amp = ab.NegGainOpAmp("Stage1", Rin=10000, Rf=20000)
-#
-# Notes:
-#     - All blocks are designed to be modular and chainable.
-#     - Flows are implemented as functions to ensure live updates.
-#     - This file is intended as a reusable library across notebooks.
-# ============================================================
+"""
+analog_blocks.py
 
+Digital analog-computer blocks for particle-pool biochemical modeling.
+Includes:
+- BlockBase: common parent for all blocks
+- PoolBlock: particle pool (ATP, O2, CO2, etc.)
+- Node: generic voltage-like node (if needed for other analog constructs)
+- Diffusion subsystem: base + constant/default/variable diffusion
+- DoseBlock: composite block for fixed-dose injection
+"""
 
-# ------------------------------------------------------------
-# 1. Node
-# ------------------------------------------------------------
-class Node:
-    """
-    Virtual summing junction (analogous to an op‑amp summing node).
+# ---------------------------------------------------------------------
+# Core base class
+# ---------------------------------------------------------------------
 
-    Parameters
-    ----------
-    name : str
-        Label for the node.
-    initial_V : float, optional
-        Initial particle density (voltage).
+class BlockBase:
+    """Base class for all analog-computer blocks."""
 
-    Notes
-    -----
-    - A node stores a voltage representing particle density.
-    - Flows are attached as functions so they recompute dynamically.
-    - net_flow() enforces conservation of flow (Kirchhoff's law).
-    """
-
-    def __init__(self, name, initial_V=0.0):
+    def __init__(self, name):
         self.name = name
-        self.V = initial_V
-        self.flows = []
-
-    def add_flow(self, flow_function):
-        """Attach a flow function to the node."""
-        self.flows.append(flow_function)
-
-    def net_flow(self):
-        """Compute the sum of all flows entering/leaving the node."""
-        return sum(f() for f in self.flows)
-
-
-
-# ------------------------------------------------------------
-# 2. Capacitor
-# ------------------------------------------------------------
-class Capacitor:
-    """
-    Storage block representing a capacitor (integrator).
-
-    Parameters
-    ----------
-    node : Node
-        The node whose voltage is updated.
-    C : float
-        Capacitance.
-    dt : float
-        Time step.
-
-    Notes
-    -----
-    - Updates node voltage using dV = (I / C) * dt.
-    - This is the numerical analog of continuous‑time integration.
-    """
-
-    def __init__(self, node, C, dt):
-        self.node = node
-        self.C = C
-        self.dt = dt
+        self.parameters = {}
+        self.state = {}
+        self.connections = {}
 
     def update(self):
-        """Update the node voltage based on net flow."""
-        I = self.node.net_flow()
-        self.node.V += (I / self.C) * self.dt
+        """Advance one simulation step. Must be overridden."""
+        raise NotImplementedError
 
-
-
-# ------------------------------------------------------------
-# 3. Resistor
-# ------------------------------------------------------------
-class Resistor:
-    """
-    Linear conductance block.
-
-    Parameters
-    ----------
-    G : float
-        Conductance (1/R).
-    V_source : callable
-        Function returning the current voltage.
-
-    Notes
-    -----
-    - Implements I = G * V.
-    - V_source must be a function to ensure live updates.
-    """
-
-    def __init__(self, G, V_source):
-        self.G = G
-        self.V_source = V_source
-
-    def flow(self):
-        """Compute flow based on current voltage."""
-        return self.G * self.V_source()
-
-
-
-# ------------------------------------------------------------
-# 4. Diffusion
-# ------------------------------------------------------------
-class Diffusion:
-    """
-    Nonlinear diffusion block.
-
-    Parameters
-    ----------
-    k : float
-        Diffusion coefficient.
-    V1 : callable
-        Function returning voltage of compartment 1.
-    V2 : callable
-        Function returning voltage of compartment 2.
-
-    Notes
-    -----
-    - Implements nonlinear diffusion:
-          I = k * (V1 - V2)^2 * sign(V1 - V2)
-    - Suitable for biochemical pathway modeling.
-    """
-
-    def __init__(self, k, V1, V2):
-        self.k = k
-        self.V1 = V1
-        self.V2 = V2
-
-    def flow_1_to_2(self):
-        """Compute nonlinear diffusion flow from V1 to V2."""
-        d = self.V1() - self.V2()
-        return self.k * d * abs(d)
-
-
-
-# ------------------------------------------------------------
-# 5. DelayLine
-# ------------------------------------------------------------
-import numpy as np
-
-class DelayLine:
-    """
-    Programmable delay line with tap weights.
-
-    Parameters
-    ----------
-    name : str
-        Label for the block.
-    tap_weights : dict
-        Dictionary {tap_index: weight}.
-
-    Notes
-    -----
-    - Performs convolution of input signal with tap weights.
-    - Ideal for demonstrating high‑speed convolution behavior.
-    """
-
-    def __init__(self, name, tap_weights):
-        self.name = name
-        self.tap_weights = tap_weights
-
-    def convolve(self, input_dict):
-        """Perform convolution and return input/output dictionaries."""
-        max_in = max(input_dict.keys())
-        max_tap = max(self.tap_weights.keys())
-
-        input_signal = np.array([input_dict.get(i, 0.0)
-                                 for i in range(max_in + 1)])
-        tap_array = np.array([self.tap_weights.get(i, 0.0)
-                              for i in range(max_tap + 1)])
-
-        output_array = np.convolve(input_signal, tap_array, mode='full')
-
-        output_dict = {i: output_array[i] for i in range(len(output_array))}
-
+    def summarize(self):
+        """Return metadata for introspection/logging."""
         return {
-            "input": input_dict,
-            "tap_weights": self.tap_weights,
-            "output": output_dict
+            "name": self.name,
+            "type": self.__class__.__name__,
+            "parameters": self.parameters,
+            "state": self.state,
+            "connections": {
+                k: getattr(v, "name", str(v))
+                for k, v in self.connections.items()
+            },
         }
 
 
+# ---------------------------------------------------------------------
+# Node (generic voltage-like node, optional but useful)
+# ---------------------------------------------------------------------
 
-# ------------------------------------------------------------
-# 6. NegGainOpAmp
-# ------------------------------------------------------------
-class NegGainOpAmp:
+class Node(BlockBase):
+    """Simple node with a scalar value (e.g., voltage, concentration)."""
+
+    def __init__(self, name, initial_V=0.0):
+        super().__init__(name)
+        self.V = initial_V
+        self.state["V"] = self.V
+
+    def update(self):
+        # Node itself may be passive; updated by connected blocks.
+        self.state["V"] = self.V
+
+
+# ---------------------------------------------------------------------
+# PoolBlock: particle pool (ATP, O2, CO2, etc.)
+# ---------------------------------------------------------------------
+
+class PoolBlock(BlockBase):
     """
-    Inverting op‑amp stage (virtual‑ground behavior).
+    Particle pool representing a biochemical compartment.
 
-    Parameters
-    ----------
-    name : str
-        Label for the block.
-    Rin : float
-        Input resistor.
-    Rf : float
-        Feedback resistor.
-    gain : float, optional
-        Open‑loop gain (default = -10000).
-
-    Notes
-    -----
-    - Implements classic inverting amplifier:
-          Vout = -(Rf / Rin) * Vin
-    - Suitable for multi‑stage amplifier cascades.
+    particles: number of particles in the pool
+    capacity: maximum "capacity" (used to compute density)
+    density: particles / capacity
     """
 
-    def __init__(self, name, Rin, Rf, gain=-10000):
-        self.name = name
-        self.Rin = Rin
-        self.Rf = Rf
-        self.gain = gain
+    def __init__(self, name, particles, capacity):
+        super().__init__(name)
+        self.particles = float(particles)
+        self.capacity = float(capacity)
 
-    def compute(self, Vin):
-        """Compute output voltage using closed‑loop gain."""
-        closed_loop_gain = -(self.Rf / self.Rin)
-        Vout = closed_loop_gain * Vin
-        return {
-            "stage": self.name,
-            "input": Vin,
-            "output": Vout,
-            "closed_loop_gain": closed_loop_gain
-        }
+        self.parameters["capacity"] = self.capacity
+        self.state["particles"] = self.particles
+        self.state["density"] = self.density
+
+    @property
+    def density(self):
+        if self.capacity == 0:
+            return 0.0
+        return self.particles / self.capacity
+
+    def update(self):
+        # Just refresh density in state; particles are updated by other blocks.
+        self.state["particles"] = self.particles
+        self.state["density"] = self.density
 
 
-# ------------------------------------------------------------
-# Utility Functions
-# ------------------------------------------------------------
+# ---------------------------------------------------------------------
+# Diffusion subsystem
+# ---------------------------------------------------------------------
 
-def inspect_block(obj):
+class DiffusionBase(BlockBase):
     """
-    Return a dictionary describing the object's class, attributes, and methods.
+    Base class for diffusion between two pools.
 
-    Parameters
-    ----------
-    obj : object
-        Any analog-computer block instance.
-
-    Returns
-    -------
-    dict
-        {
-            "class": <class name>,
-            "attributes": { ... },
-            "methods": [ ... ]
-        }
+    Subclasses define how the diffusion coefficient D is obtained.
     """
-    attrs = {k: v for k, v in obj.__dict__.items()}
 
-    methods = [
-        m for m in dir(obj)
-        if callable(getattr(obj, m))
-        and not m.startswith("__")
-        and m not in attrs
-    ]
+    def __init__(self, name, pool_a: PoolBlock, pool_b: PoolBlock):
+        super().__init__(name)
+        self.pool_a = pool_a
+        self.pool_b = pool_b
 
-    return {
-        "class": obj.__class__.__name__,
-        "attributes": attrs,
-        "methods": methods
-    }
+        self.connections["pool_a"] = pool_a
+        self.connections["pool_b"] = pool_b
+
+    def get_coefficient(self) -> float:
+        """Return diffusion coefficient D. Must be overridden."""
+        raise NotImplementedError
+
+    def update(self):
+        D = float(self.get_coefficient())
+        delta = self.pool_a.density - self.pool_b.density
+        flow = D * delta
+
+        # Update particle counts (simple symmetric exchange)
+        self.pool_a.particles -= flow
+        self.pool_b.particles += flow
+
+        # Record state
+        self.state["D"] = D
+        self.state["delta_density"] = delta
+        self.state["flow"] = flow
 
 
-def summarize_block(obj):
+class ConstantDiffusionBlock(DiffusionBase):
+    """Diffusion with a fixed coefficient D."""
+
+    def __init__(self, name, pool_a, pool_b, D):
+        super().__init__(name, pool_a, pool_b)
+        self.D = float(D)
+        self.parameters["D"] = self.D
+
+    def get_coefficient(self):
+        return self.D
+
+
+class DefaultDiffusionBlock(DiffusionBase):
+    """Diffusion with default coefficient D = 1.0."""
+
+    def __init__(self, name, pool_a, pool_b):
+        super().__init__(name, pool_a, pool_b)
+        self.parameters["D"] = 1.0
+
+    def get_coefficient(self):
+        return 1.0
+
+
+class VariableDiffusionBlock(DiffusionBase):
     """
-    Pretty-print a readable summary of any analog-computer block.
+    Diffusion with coefficient driven by a pool.
 
-    Parameters
-    ----------
-    obj : object
-        Any block instance from the analog_blocks library.
-
-    Returns
-    -------
-    str
-        A formatted multi-line string describing the block.
+    coefficient_pool.density is used as D.
     """
-    info = inspect_block(obj)
 
-    lines = []
-    lines.append(f"Block Summary: {info['class']}")
-    lines.append("-" * 50)
+    def __init__(self, name, pool_a, pool_b, coefficient_pool: PoolBlock):
+        super().__init__(name, pool_a, pool_b)
+        self.coefficient_pool = coefficient_pool
+        self.connections["coefficient_pool"] = coefficient_pool
 
-    # Attributes
-    lines.append("Attributes:")
-    for k, v in info["attributes"].items():
-        lines.append(f"  • {k}: {v}")
+    def get_coefficient(self):
+        return self.coefficient_pool.density
 
-    # Methods
-    lines.append("\nMethods:")
-    for m in info["methods"]:
-        lines.append(f"  • {m}")
 
-    return "\n".join(lines)
+# ---------------------------------------------------------------------
+# DoseBlock: composite block for fixed-dose injection
+# ---------------------------------------------------------------------
+
+class DoseBlock(BlockBase):
+    """
+    Composite analog block:
+    - stores a dose (charge/particles)
+    - leaks through a resistor-like path
+    - triggers a fixed injection into a node
+
+    States:
+        idle      – holds initial charge
+        draining  – drains into node
+        triggered – injects fixed dose into node
+    """
+
+    def __init__(self, name, node: Node, C, R, dose_quantity, dt=0.1):
+        super().__init__(name)
+
+        # Parameters
+        self.node = node
+        self.C = float(C)
+        self.R = float(R)
+        self.dose_quantity = float(dose_quantity)
+        self.dt = float(dt)
+
+        self.parameters.update({
+            "C": self.C,
+            "R": self.R,
+            "dose_quantity": self.dose_quantity,
+            "dt": self.dt,
+        })
+
+        # Internal state
+        self.V = self.dose_quantity / self.C  # initial "voltage"
+        self.state_mode = "idle"
+        self.remaining_dose = self.dose_quantity
+
+        self.state.update({
+            "V": self.V,
+            "mode": self.state_mode,
+            "remaining_dose": self.remaining_dose,
+        })
+
+        self.connections["node"] = node
+
+    def update(self):
+        if self.state_mode == "idle":
+            # No change
+            pass
+
+        elif self.state_mode == "draining":
+            # Resistor-like drain into node
+            I = self.V / self.R
+            dV = -(I / self.C) * self.dt
+            self.V += dV
+            self.node.V += I * self.dt
+
+            if self.V <= 0:
+                self.V = 0.0
+                self.state_mode = "idle"
+
+        elif self.state_mode == "triggered":
+            # Inject fixed dose as current over dt
+            I = self.remaining_dose / self.dt
+            self.node.V += I * self.dt
+            self.remaining_dose = 0.0
+            self.state_mode = "idle"
+
+        # Update state dict
+        self.state.update({
+            "V": self.V,
+            "mode": self.state_mode,
+            "remaining_dose": self.remaining_dose,
+        })
+
+    def trigger(self):
+        """Switch block into triggered mode."""
+        self.state_mode = "triggered"
+
+    def start_draining(self):
+        """Begin draining mode."""
+        self.state_mode = "draining"
+
+
+# ---------------------------------------------------------------------
+# Simple simulation helper (optional)
+# ---------------------------------------------------------------------
+
+def run_iteration(blocks, max_steps=1000, epsilon=1e-6):
+    """
+    Run blocks until approximate stability.
+
+    blocks: list of BlockBase instances
+    max_steps: maximum iterations
+    epsilon: threshold for change in state (simple heuristic)
+    """
+    prev_states = [b.summarize()["state"].copy() for b in blocks]
+
+    for step in range(max_steps):
+        for b in blocks:
+            b.update()
+
+        stable = True
+        for i, b in enumerate(blocks):
+            current = b.summarize()["state"]
+            prev = prev_states[i]
+            # crude stability check: sum of absolute differences
+            diff = 0.0
+            for k in current:
+                if isinstance(current[k], (int, float)) and k in prev:
+                    diff += abs(current[k] - prev[k])
+            if diff > epsilon:
+                stable = False
+            prev_states[i] = current.copy()
+
+        if stable:
+            break
+
+    return {b.name: b.summarize()["state"] for b in blocks}
+
+# ---------------------------------------------------------------------
+# RespirationBase(BlockBase)
+# ---------------------------------------------------------------------
+
+class RespirationBase(BlockBase):    
+    def __init__(self, name, fuel_pool, o2_pool, adp_pool, atp_pool, co2_pool):
+        super().__init__(name)
+        self.fuel_pool = fuel_pool
+        self.o2_pool = o2_pool
+        self.adp_pool = adp_pool
+        self.atp_pool = atp_pool
+        self.co2_pool = co2_pool
+
+        self.connections.update({
+            "fuel": fuel_pool,
+            "o2": o2_pool,
+            "adp": adp_pool,
+            "atp": atp_pool,
+            "co2": co2_pool,
+        })
+
+    def update(self):
+        """ 
+        Override in subclasses.
+        """
+        raise NotImplementedError
+
