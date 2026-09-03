@@ -294,27 +294,53 @@ def run_iteration(blocks, max_steps=1000, epsilon=1e-6):
 # ---------------------------------------------------------------------
 # RespirationBase(BlockBase)
 # ---------------------------------------------------------------------
+class RespirationBlock(RespirationBase):
+    """
+    Respiration block with AMP production.
+    """
 
-class RespirationBase(BlockBase):    
-    def __init__(self, name, fuel_pool, o2_pool, adp_pool, atp_pool, co2_pool):
-        super().__init__(name)
-        self.fuel_pool = fuel_pool
-        self.o2_pool = o2_pool
-        self.adp_pool = adp_pool
-        self.atp_pool = atp_pool
-        self.co2_pool = co2_pool
+    def __init__(self, name, fuel_pool, o2_pool, adp_pool, atp_pool, amp_pool, co2_pool):
+        super().__init__(name, fuel_pool, o2_pool, adp_pool, atp_pool, co2_pool)
 
-        self.connections.update({
-            "fuel": fuel_pool,
-            "o2": o2_pool,
-            "adp": adp_pool,
-            "atp": atp_pool,
-            "co2": co2_pool,
-        })
+        self.amp_pool = amp_pool
+        self.connections["amp"] = amp_pool
+
+        self.parameters["ATP_per_O2"] = 32
+        self.parameters["CO2_per_O2"] = 1
+        self.parameters["fuel_per_ATP"] = 1/32
+        self.parameters["AMP_ratio"] = 0.1  # 10% of ADP depletion becomes AMP
 
     def update(self):
-        """ 
-        Override in subclasses.
-        """
-        raise NotImplementedError
+        # Determine limiting reagent
+        max_ATP_from_O2 = self.o2_pool.particles * self.parameters["ATP_per_O2"]
+        max_ATP_from_ADP = self.adp_pool.particles
+
+        ATP_produced = min(max_ATP_from_O2, max_ATP_from_ADP)
+
+        # Compute reagent consumption
+        O2_used = ATP_produced / self.parameters["ATP_per_O2"]
+        ADP_used = ATP_produced
+        CO2_produced = O2_used
+        fuel_used = ATP_produced * self.parameters["fuel_per_ATP"]
+
+        # AMP production from ADP depletion
+        AMP_produced = ADP_used * self.parameters["AMP_ratio"]
+
+        # Update pools
+        self.o2_pool.particles -= O2_used
+        self.adp_pool.particles -= ADP_used
+        self.atp_pool.particles += ATP_produced
+        self.co2_pool.particles += CO2_produced
+        self.fuel_pool.particles -= fuel_used
+        self.amp_pool.particles += AMP_produced
+
+        # Update state
+        self.state.update({
+            "ATP_produced": ATP_produced,
+            "O2_used": O2_used,
+            "ADP_used": ADP_used,
+            "CO2_produced": CO2_produced,
+            "fuel_used": fuel_used,
+            "AMP_produced": AMP_produced
+        })
 
